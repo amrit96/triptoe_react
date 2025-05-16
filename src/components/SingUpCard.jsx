@@ -10,8 +10,21 @@ import ListInfoTooltip from "./ListInfoToolTip";
 
 import REGEX from "../constants/regex";
 
-// import { logIn } from '../features/authSlice';
 import { styled } from '@mui/material/styles';
+
+const RegistrationForm = styled("div")(() => ({
+    height: "100%",
+    width: "99%",
+    padding: "2px",
+    display: "flex",
+    flexWrap: "nowrap",
+    flexDirection: "column",
+}));
+
+const FormRow = styled("div")(() => ({
+    display: "flex",
+    margin: "2px",
+}))
 
  const SignUpCard =({ isOpen, onClose, logIn }) => {
 
@@ -25,6 +38,7 @@ import { styled } from '@mui/material/styles';
     
     const [formData, setFormData] = useState({
         firstName: '',
+        middleName: '',
         lastName: '',
         email: '',
         mobile: '',
@@ -71,33 +85,47 @@ import { styled } from '@mui/material/styles';
     
     const handleSubmit = () => {
         if (validate()) {
-            onSignUp(formData);
+            onSignUp();
         }
     };
 
-    const RegistrationForm = styled("div")(() => ({
-        height: "100%",
-        width: "99%",
-        padding: "2px",
-        display: "flex",
-        flexWrap: "nowrap",
-        flexDirection: "column",
-    }));
+    const closeAndSwitch = () => {
+        setFormData({
+            firstName: '',
+            middleName: '',
+            lastName: '',
+            email: '',
+            mobile: '',
+            dob: null,
+            password: '',
+        })
+        setErrors({})
+        logIn()
+    }
 
-    const FormRow = styled("div")(() => ({
-        display: "flex",
-        margin: "2px",
-    }))
+    const clearAndClose = () => {
+        setFormData({
+            firstName: '',
+            middleName: '',
+            lastName: '',
+            email: '',
+            mobile: '',
+            dob: null,
+            password: '',
+        })
+        setErrors({})
+        onClose()
+    }
 
     const today = new Date();
 
     return (
-        <Dialog open={isOpen} onClose={onClose}>
+        <Dialog open={isOpen} onClose={clearAndClose}>
             <DialogTitle> 
                 Sign Up to Trip Toe
                 <IconButton
                     aria-label="close"
-                    onClick={onClose}
+                    onClick={clearAndClose}
                     sx={{
                         position: 'absolute',
                         right: 8,
@@ -128,6 +156,17 @@ import { styled } from '@mui/material/styles';
                             sx={{marginRight: "3px"}}
                         />
                         <TextField 
+                            variant="filled" 
+                            label="Middle Name"  
+                            margin="dense"  
+                            fullWidth
+                            value={formData.middleName}
+                            onChange={handleChange('middleName')}
+                            error={!!errors.middleName}
+                            helperText={errors.middleName}
+                            sx={{marginRight: "3px", marginLeft: "3px"}}
+                        />
+                        <TextField 
                             variant="filled"
                             label="Last Name"
                             margin="dense"
@@ -152,9 +191,8 @@ import { styled } from '@mui/material/styles';
                             onChange={handleChange('email')}
                             error={!!errors.email}
                             helperText={errors.email}
+                            sx={{marginRight: "3px"}}
                         />
-                    </FormRow>
-                    <FormRow>
                         <TextField 
                             variant="filled"
                             label="Mobile"
@@ -165,6 +203,7 @@ import { styled } from '@mui/material/styles';
                             onChange={handleChange('mobile')}
                             error={!!errors.mobile}
                             helperText={errors.mobile}
+                            sx={{marginLeft: "3px"}}
                         />
                     </FormRow>
                     <FormRow>
@@ -220,7 +259,7 @@ import { styled } from '@mui/material/styles';
                     <Typography variant="body2" gutterBottom>
                         Already Registered to TripToe?
                     </Typography>
-                    <Button variant="outlined" color="primary" fullWidth onClick={logIn}>
+                    <Button variant="outlined" color="primary" fullWidth onClick={closeAndSwitch}>
                         Sign In
                     </Button>
                 </Box>

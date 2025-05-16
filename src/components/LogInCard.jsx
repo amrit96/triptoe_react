@@ -42,15 +42,33 @@ import { logIn } from '../features/authSlice';
             onLogin()
         }
     }
+
+    const clearAndSwitch = () => {
+        setFormData({
+            userId: '',
+            password: ''
+        });
+        setErrors({});
+        signUp()
+    }
+
+    const clearAndClose = () => {
+        setFormData({
+            userId: '',
+            password: ''
+        });
+        setErrors({});
+        onClose();
+    }
     
 
     return (
-        <Dialog open={isOpen} onClose={onClose}>
+        <Dialog open={isOpen} onClose={clearAndClose}>
             <DialogTitle> 
                 Welcome to Trip Toe
                 <IconButton
                     aria-label="close"
-                    onClick={onClose}
+                    onClick={clearAndClose}
                     sx={{
                         position: 'absolute',
                         right: 8,
@@ -109,7 +127,7 @@ import { logIn } from '../features/authSlice';
                     <Typography variant="body2" gutterBottom>
                         New to TripToe?
                     </Typography>
-                    <Button variant="outlined" color="primary" fullWidth onClick={signUp}>
+                    <Button variant="outlined" color="primary" fullWidth onClick={clearAndSwitch}>
                         Sign Up
                     </Button>
                 </Box>
