@@ -1,12 +1,13 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { logIn, logOut } from '../features/authSlice';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { AppBar, Toolbar, Box, Typography, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import ThemeSwitch from './ThemeSwitch';
 import ButtonMini from './ButtonMini';
 import ProfileMenu from './ProfileMenu';
+import LogInCard from './LogInCard';
+import SignUpCard from './SingUpCard';
 import COLORS from '../constants/colors';
 
 
@@ -41,10 +42,25 @@ const StyledAppBar = styled(AppBar)(() => ({
 const TopNav = () => {
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const stateColors = useSelector((state) => state.theme.colors);
-    const dispatch = useDispatch();
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+    
+    const handleOpenLogin = () => {
+        setIsSignUpOpen(false)
+        setIsLoginOpen(true);
+    };
 
-    const onLogToggle = () => {
-        return isLoggedIn ? dispatch(logOut()) : dispatch(logIn({ firstName: 'Amritayan', lastName: 'Banerjee' }))
+    const handleCloseLogin = () => {
+        setIsLoginOpen(false);
+    };
+
+    const handleOpenSignUp = () => {
+        setIsLoginOpen(false)
+        setIsSignUpOpen(true)
+    }
+
+    const handleCloseSignUp = () => {
+        setIsSignUpOpen(false)
     }
 
     return (
@@ -61,7 +77,11 @@ const TopNav = () => {
             <ThemeSwitch />
             { isLoggedIn 
                 ? <ProfileMenu />
-                : <ButtonMini onClick={onLogToggle} displayText={isLoggedIn ? "Log Out": "Log In"} />}
+                : <>
+                    <ButtonMini onClick={handleOpenLogin} displayText={"Log In"} />
+                    <LogInCard isOpen={isLoginOpen} onClose={handleCloseLogin} signUp={handleOpenSignUp} />
+                    <SignUpCard isOpen={isSignUpOpen} onClose={handleCloseSignUp} logIn={handleOpenLogin} />
+                </>}
             </Box>
         </Toolbar>
         </StyledAppBar>

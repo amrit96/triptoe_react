@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import TopNav from '../../components/TopNav';
 import ImageCarousel from '../../components/ImageCarousel';
+import LogInCard from '../../components/LogInCard';
 
 const LoggedOutHome = () => {
     const images = [
@@ -24,22 +25,23 @@ const LoggedOutHome = () => {
         textAlign: 'center',
     }));
 
-  return (
-    <div>
-        <TopNav />
-        {/* 🔹 Banner Carousel */}
-        <ImageCarousel images={images} autoScroll={true} height={'650px'} />
+    return (
+        <div>
+            <TopNav />
+            {/* 🔹 Banner Carousel */}
+            <ImageCarousel images={images} autoScroll={true} height={'650px'} />
 
-        {/* 🔹 Intro Text */}
-        <IntroTextStyle stateColors={stateColors}>
-            <h2>Welcome to Trip Toe</h2>
-            <p>
-            Your personalized travel assistant. Explore destinations, pin your
-            memories, and plan your next adventure all in one place.
-            </p>
-        </IntroTextStyle>
-    </div>
-  );
+            {/* 🔹 Intro Text */}
+            <IntroTextStyle stateColors={stateColors}>
+                <h2>Welcome to Trip Toe</h2>
+                <p>
+                Your personalized travel assistant. Explore destinations, pin your
+                memories, and plan your next adventure all in one place.
+                </p>
+            </IntroTextStyle>
+            <LogInCard />
+        </div>
+    );
 };
 
 export default LoggedOutHome;
