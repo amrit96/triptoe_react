@@ -8,6 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import ListInfoTooltip from "./ListInfoToolTip";
 
+import REGEX from "../constants/regex";
+
 // import { logIn } from '../features/authSlice';
 import { styled } from '@mui/material/styles';
 
@@ -49,7 +51,7 @@ import { styled } from '@mui/material/styles';
 
     const validate = () => {
         const newErrors = {};
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[<>\*_\-\(\)\[\]\+]).{8,}$/;
+        const passwordRegex = REGEX.password;
         if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
         if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
         if (!formData.email.trim()) newErrors.email = 'Email is required';
