@@ -16,6 +16,6 @@ export const signUpUser = async (userData) => {
         return {status: true, response: `Welcome, ${response.data.first_name}! Sign-up successful.`}
     } catch (error) {
         console.log("FAILED ", error)
-        return {status: false, response: "Something went wrong"}
+        return {status: false, response: error.response.data.error}
     }
 };
