@@ -8,7 +8,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import { logOut } from '../features/authSlice'; // update to match your actual logout path
+import { logOut } from '../features/authSlice'; 
+import Cookies from 'js-cookie';
 
 const StyledAvatarButton = styled(IconButton)(({ theme }) => ({
   padding: 0,
@@ -72,8 +73,9 @@ const ProfileMenu = () => {
     };
 
     const handleLogout = () => {
-        handleClose();
+        Cookies.remove('token');
         dispatch(logOut());
+        handleClose();
         navigate('/');
     };
 
@@ -92,7 +94,7 @@ const ProfileMenu = () => {
                 mode={mode}
             >
                 <MenuItem onClick={goToProfile} sx={iconSx} >
-                    <ListItemIcon><Avatar src={stateUser.profilePicture} sx={{...iconSx, width: 20, height: 20 }} /></ListItemIcon>
+                    <ListItemIcon><Avatar src={stateUser?.profilePicture || null} sx={{...iconSx, width: 20, height: 20 }} /></ListItemIcon>
                     {stateUser.firstName} {stateUser.lastName}
                 </MenuItem>
                 <Divider />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import bcrypt from 'bcryptjs';
+// import bcrypt from 'bcryptjs';
 import { 
     Button, 
     Dialog, 
@@ -24,7 +24,8 @@ import { styled } from '@mui/material/styles';
 import ListInfoTooltip from "./ListInfoToolTip";
 import REGEX from "../constants/regex";
 
-import {signUpUser} from "../services/register.services";
+import { signUpUser } from "../services/auth.services";
+import { getPasswordHash } from "../utils/auth.util";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 
@@ -84,12 +85,6 @@ const FormRow = styled("div")(() => ({
         setErrors({ ...errors, dob: '' });
     };
 
-    const getPasswordHash = async (password) => {
-        const saltRounds = 10;
-        const hash = await bcrypt.hash(password, saltRounds);
-        return hash;
-      };
-
     const onSignUp = async () => {
         const hashedPwd = await getPasswordHash(formData.password)
         const registrationData = {
@@ -106,15 +101,13 @@ const FormRow = styled("div")(() => ({
         if (formData.middleName) {
             registrationData["middle_name"] = formData.middleName
         }
-        const {status, response} = await signUpUser(registrationData)
+        const {status, message} = await signUpUser(registrationData)
         if (status) {
-            // <Alert severity="success">{{response}}</Alert>
-            showAlert('success', response)
+            showAlert('success', message)
             closeAndSwitch()
         } else {
-            console.log("GOT FAILED ", response);
-            // <Alert severity="error">{{response}}</Alert>
-            showAlert('error', response)
+            console.log("GOT FAILED ", message);
+            showAlert('error', message)
         }
     }
 
